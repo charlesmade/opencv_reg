@@ -12,8 +12,30 @@ def img_show(img):
     cv2.destroyAllWindows()
     exit(0)
 
+def read_img(img_src):
+    img = cv2.imread(img_src)
+    if img is None:
+        capture_img = cv2.VideoCapture(img_src)
+        if capture_img.isOpened():
+            ret, img = capture_img.read()
+            if img is None:
+                return False
+            else:
+                return img
+        else:
+            return False
+    else:
+        return img
+
+img_src = 'http://photo.yousi.com/2018-11-09_5be53e39b6ed7.jpg'
 #读入图片
-image = cv2.imread("./img/test2.jpg")
+image = read_img(img_src)
+# print(image.shape) # 图像的宽度、高度和通道数
+# print(image.size) # 图像的像素大小
+# print(image.dtype) # 图像的数据类型
+
+# print(image)
+# exit(0)
 #转换为灰度图像
 gray = cv2.cvtColor(image, cv2.COLOR_BGR2GRAY)
 
@@ -136,17 +158,17 @@ for c in cnts:
             cv2.circle(paper, (cX, cY), 7, (255, 255, 255), -1)
             #保存题目坐标信息
             Answer.append((cX, cY))
-# x_ray = []
-# y_ray = []
-# for ans in Answer:
-#     x_ray.append(ans[0])
-#     y_ray.append(ans[1])
-#
-# plt.scatter(x_ray, y_ray, marker = 'o', color = 'green')
-# for a, b in zip(x_ray, y_ray):
-#     plt.text(a, b, (a,b),ha='center', va='bottom', fontsize=10)
-# plt.show()
-# exit(0)
+x_ray = []
+y_ray = []
+for ans in Answer:
+    x_ray.append(ans[0])
+    y_ray.append(ans[1])
+
+plt.scatter(x_ray, y_ray, marker = 'o', color = 'green')
+for a, b in zip(x_ray, y_ray):
+    plt.text(a, b, (a,b),ha='center', va='bottom', fontsize=10)
+plt.show()
+exit(0)
 
 def judgex(x, x1, x2):
     if abs((x - x1)) < abs(x - x2):
@@ -163,7 +185,7 @@ def judgey(y, y1, y2):
 
 IDAnswer=[]
 xtt1 = [95, 367, 1370, 1642]
-ytt1 = [(150 * i) + 105 for i in range(0, 16)]
+ytt1 = [(145 * i) + 105 for i in range(0, 16)]
 # xt1 = [120 * i for i in range(0, 21)]
 # yt1 = [(73.33 * i) + 900 for i in range(0, 16)]
 
